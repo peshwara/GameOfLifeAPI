@@ -31,17 +31,14 @@ namespace GameOfLifeAPI.Conteollers
                 return BadRequest("Invalid initial state.");
             }
 
-            // Convert JsonArray to multi-dimensional array
-            int rows = initialStateArray.Count;
-            int cols = initialStateArray[0].AsArray().Count;
-            int[,] multiDimensionalArray = new int[rows, cols];
-            for (int i = 0; i < rows; i++)
+            int[,] multiDimensionalArray;
+            try
             {
-                var rowArray = initialStateArray[i].AsArray();
-                for (int j = 0; j < cols; j++)
-                {
-                    multiDimensionalArray[i, j] = rowArray[j].GetValue<int>();
-                }
+                 multiDimensionalArray = _gameOfLifeService.ValidateAndConvert(initialStateArray);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             try

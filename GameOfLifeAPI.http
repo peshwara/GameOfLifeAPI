@@ -1,58 +1,23 @@
-@GameOfLifeAPI_HostAddress = http://localhost:5217
-
-
-###
-# Create a new board using the /create endpoint
-POST {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/create
+### Create a new board
+POST http://localhost:5000/api/gameoflife/boards/create
 Content-Type: application/json
+
 {
   "initialState": [
     [1, 0, 0],
-    [0, 0, 0],
-    [0, 0, 1]
+    [0, 1, 1],
+    [1, 1, 0]
   ]
 }
 
+### Get the current state of the board
+GET http://localhost:5000/api/gameoflife/boards/1
 
-###
-# Create a new board using the /create endpoint
-POST {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/create
-Content-Type: application/json
+### Get the next state of the board
+GET http://localhost:5000/api/gameoflife/boards/1/next
 
-{
-  "initialState": [
-    [0, 0, 1],
-    [1, 1, 1],
-    [0, 0, 0]
-  ]
-}
+### Get the state of the board after 3 generations
+GET http://localhost:5000/api/gameoflife/boards/1/generations/3
 
-
-###
-@boardId1 = 1465577487
-# Get the next generation of a board
-GET {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/{{boardId1}}/next
-Accept: application/json
-
-
-###
-@boardId2 = 1760271482
-# Get the board
-GET {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/{{boardId2}}
-Accept: application/json
-
-
-
-###
-# Get states at a specific generation
-@boardId3 = 1760271482
-@generations = 3
-GET {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/{{boardId3}}/generations/{{generations}}
-Accept: application/json
-
-###
-# Get the final state of a board
-@boardId4 = 893794838
-@maxGenerations = 2
-GET {{GameOfLifeAPI_HostAddress}}/api/gameoflife/boards/{{boardId4}}/final?maxGenerations={{maxGenerations}}
-Accept: application/json
+### Get the final state of the board after 5 generations
+GET http://localhost:5000/api/gameoflife/boards/1/final?maxGenerations=5

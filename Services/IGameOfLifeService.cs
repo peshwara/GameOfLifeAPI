@@ -1,3 +1,5 @@
+using System.Text.Json.Nodes;
+
 namespace GameOfLifeAPI.Services
 {    
     public interface IGameOfLifeService
@@ -7,6 +9,7 @@ namespace GameOfLifeAPI.Services
         Task<string> GetNextGenerationAsync(int boardId);
         Task<string> GetStatesAtGenerationAsync(int boardId, int generations);
         Task<string> GetFinalStateAsync(int boardId, int maxGenerations);
+        int[,] ValidateAndConvert(JsonArray initialStateArray);
     }
 
 }

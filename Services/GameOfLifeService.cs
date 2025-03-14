@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using GameOfLifeAPI.Data;
 using GameOfLifeAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,6 @@ namespace GameOfLifeAPI.Services
 
         public async Task<string> GetNextGenerationAsync(int boardId)
         {   
-            Console.WriteLine("____________________________ GetNextGenerationAsync for " + boardId);
             var board = await _context.Boards.FindAsync(boardId);
 
             if (board == null)
@@ -52,7 +52,6 @@ namespace GameOfLifeAPI.Services
                 throw new InvalidOperationException("Board not found.");
             }
             board.StateArray = GameOfLife.GetNextGeneration(board.StateArray);  // Get next generation
-            Console.WriteLine("____________________________ nextGen " + board.Id);
             _context.Boards.Update(board);
             await _context.SaveChangesAsync();
 
@@ -116,7 +115,25 @@ namespace GameOfLifeAPI.Services
             return true;
         }
 
+        int[,] IGameOfLifeService.ValidateAndConvert(JsonArray initialStateArray)
+        {
 
+            // Convert JsonArray to multi-dimensional array
+            int rows = initialStateArray.Count;
+            int cols = initialStateArray[0].AsArray().Count;
+            int[,] multiDimensionalArray = new int[rows, cols];
+            for (int i = 0; i < rows; i++)
+            {
+                var rowArray = initialStateArray[i].AsArray();
+                for (int j = 0; j < cols; j++)
+                {
+                    multiDimensionalArray[i, j] = rowArray[j].GetValue<int>();
+                }
+            }
+
+            return multiDimensionalArray;
+            
+        }
     }
 
 
