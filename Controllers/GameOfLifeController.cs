@@ -67,6 +67,7 @@ namespace GameOfLifeAPI.Conteollers
             }
         }
 
+        // TODO: Change this to POST since it is not idenmpotent 
         [HttpGet("boards/{boardId}/next")]
         public async Task<IActionResult> GetNextBoardState(int boardId)
         {
@@ -81,7 +82,7 @@ namespace GameOfLifeAPI.Conteollers
             }
         }
 
-
+        //TODO: Change this to POST since it is not idenmpotent 
         [HttpGet("boards/{boardId}/generations/{generations}")]
         public async Task<IActionResult> GetStatesAtGeneration(int boardId, int generations)
         {
@@ -96,6 +97,7 @@ namespace GameOfLifeAPI.Conteollers
             }
         }
 
+        //TODO: Change this to POST since it is not idenmpotent 
         [HttpGet("boards/{boardId}/final")]
         public async Task<IActionResult> GetFinalState(int boardId, int maxGenerations)
         {
